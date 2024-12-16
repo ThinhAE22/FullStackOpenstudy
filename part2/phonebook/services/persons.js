@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/persons' //Ex 3.9
+const baseUrl = '/api/persons' //3.11
+//const baseUrl = "https://render-test-fso-course.onrender.com/api/persons" //Ex 3.10
+//const baseUrl = 'http://localhost:3001/api/persons' //Ex 3.9
 //const baseUrl = 'http://localhost:3001/persons' //Ex 2 og
 
 const getAll = () => {
