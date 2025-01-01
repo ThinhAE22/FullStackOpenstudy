@@ -8,7 +8,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     noteService
@@ -77,6 +77,8 @@ const App = () => {
       </ul>
       <form onSubmit={addNote}>
       <input
+          type="text" 
+          writingsuggestions="true"
           value={newNote}
           onChange={handleNoteChange}
         />

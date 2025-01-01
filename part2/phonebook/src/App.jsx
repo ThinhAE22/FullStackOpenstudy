@@ -59,7 +59,7 @@ const App = () => {
           }, 5000);
         })
         .catch(error => {
-          setServerMessage({ message: `Information of ${updatedPerson.name} has already been removed from the server`, type: 'error' })
+          setServerMessage({ message: `${error.response.data.error}`, type: 'error' })
           setTimeout(() => {
             setServerMessage({ message: '', type: '' });
           }, 5000);
@@ -91,6 +91,12 @@ const App = () => {
       setNewName('')
       setNewNumber('')
       setServerMessage({message: `Added ${personObject.name}`, type: 'success'})
+      setTimeout(() => {
+        setServerMessage({ message: '', type: '' });
+      }, 5000);
+    })
+    .catch(error => {
+      setServerMessage({ message: `${error.response.data.error}`, type: 'error' })
       setTimeout(() => {
         setServerMessage({ message: '', type: '' });
       }, 5000);
@@ -130,7 +136,7 @@ const App = () => {
     }
   };
 
-
+  
 
 
   return (
