@@ -1,3 +1,5 @@
+//Part 3
+/*
 const express = require('express')
 const app = express()
 require('dotenv').config()
@@ -96,7 +98,23 @@ app.put('/api/notes/:id', (request, response, next) => {
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
+//Part 4 example
+const config = require('./utils/config')
+
+logger.info(`Server running on port ${config.PORT}`)
+
+
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
+})*/
+
+//Part 4
+const app = require('./app') // the actual Express application
+const config = require('./utils/config')
+const logger = require('./utils/logger')
+
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
