@@ -109,22 +109,39 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 
 
 // Update blog
-blogsRouter.put('/:id', async (req, res) => {
-    const { likes } = req.body;
+blogsRouter.put('/:id', userExtractor, async (req, res) => {
+    const { id } = req.params; // Use req here to stay consistent
+    const user = req.user; // Extracted from the token by userExtractor
+
+    const { likes, title, author, url } = req.body; // Use req.body for data
+
     try {
+        const blog = await Blog.findById(id).populate('user');
+
+        // Check if the user is the owner of the blog
+        if (blog.user._id.toString() !== user._id.toString()) {
+            return res.status(403).json({ error: 'Permission denied' });
+        }
+
+        // Update blog with the new data, ensure likes is not undefined
         const updatedBlog = await Blog.findByIdAndUpdate(
-            req.params.id,
-            { likes },
+            req.params.id,  // The blog ID
+            { 
+                likes: likes !== undefined ? likes : blog.likes,  // Set likes only if provided, otherwise retain current value
+                title,
+                author,
+                url 
+            },  
             { new: true, runValidators: true, context: 'query' }
         );
 
         if (updatedBlog) {
-            res.status(200).json(updatedBlog);
+            res.status(200).json(updatedBlog); // Send the updated blog as response
         } else {
-            res.status(404).send({ error: 'Blog not found' });
+            res.status(404).send({ error: 'Blog not found' }); // If no blog is found with that ID
         }
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error' }); // Catch any errors
     }
 });
 
